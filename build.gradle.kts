@@ -10,8 +10,12 @@ repositories {
     mavenCentral()
 }
 
+private val kotestVersion = "5.9.1"
+
 dependencies {
-    testImplementation(kotlin("test"))
+    testImplementation("io.kotest:kotest-assertions-core-jvm:${kotestVersion}")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:${kotestVersion}")
+    testImplementation("io.kotest:kotest-property-jvm:${kotestVersion}")
 }
 
 application {
@@ -21,6 +25,7 @@ application {
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(21)
 }
