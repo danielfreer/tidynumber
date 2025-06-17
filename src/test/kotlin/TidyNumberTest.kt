@@ -2,6 +2,7 @@ import io.kotest.assertions.forEachAsClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 
 class TidyNumberTest : StringSpec({
     "known tidy numbers" {
@@ -36,5 +37,18 @@ class TidyNumberTest : StringSpec({
             isTidy(number)
                 .shouldBeTrue()
         }
+    }
+    "132 last tidy number is 129" {
+        tidyNumber("132").shouldBe(129)
+    }
+    "1000 last tidy number is 999" {
+        tidyNumber("1000").shouldBe(999)
+    }
+    "7 last tidy number is 7" {
+        tidyNumber("7").shouldBe(7)
+    }
+    "worst case scenario for signed int" {
+        tidyNumber("2147483647")
+            .shouldBe(1_999_999_999)
     }
 })
