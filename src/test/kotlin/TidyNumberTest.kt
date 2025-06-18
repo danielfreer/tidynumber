@@ -1,54 +1,23 @@
-import io.kotest.assertions.forEachAsClue
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class TidyNumberTest : StringSpec({
-    "known tidy numbers" {
-        listOf(
-            7,
-            8,
-            123,
-            129,
-            555,
-            999,
-            224488,
-        ).forEachAsClue { number ->
-            isTidy(number)
-                .shouldBeTrue()
+class TidyNumberTest : FunSpec({
+    testCases.forEach { (input, expected) ->
+        test("$input last tidy number is $expected") {
+            val actual = tidyNumber(input)
+            actual shouldBe expected
         }
-    }
-    "known untidy numbers" {
-        listOf(
-            20,
-            132,
-            321,
-            496,
-            1000,
-            999990,
-        ).forEachAsClue { number ->
-            isTidy(number)
-                .shouldBeFalse()
-        }
-    }
-    "all single digits are tidy" {
-        (0..9).forEachAsClue { number ->
-            isTidy(number)
-                .shouldBeTrue()
-        }
-    }
-    "132 last tidy number is 129" {
-        tidyNumber("132").shouldBe("129")
-    }
-    "1000 last tidy number is 999" {
-        tidyNumber("1000").shouldBe("999")
-    }
-    "7 last tidy number is 7" {
-        tidyNumber("7").shouldBe("7")
-    }
-    "worst case scenario for signed int" {
-        tidyNumber("2147483647")
-            .shouldBe("1999999999")
     }
 })
+
+private data class TestCase(val input: String, val expected: String)
+private val testCases = listOf(
+    TestCase(input = "012", expected = "12"),
+    TestCase(input = "110", expected = "99"),
+    TestCase(input = "132", expected = "129"),
+    TestCase(input = "441", expected = "399"),
+    TestCase(input = "1000", expected = "999"),
+    TestCase(input = "2147483647", expected = "1999999999"),
+    TestCase(input = "1122334455667788998", expected = "1122334455667788899"),
+    TestCase(input = "9223372036854775807", expected = "8999999999999999999"),
+)
